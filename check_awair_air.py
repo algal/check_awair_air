@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import requests
 import json
+# requirements: requests
 
 # the DNS hostname or IP addresss of your Awaire with Local Sensors enabled
 hostname = 'AWAIR-R2-1313EC.local.'
