@@ -11,6 +11,13 @@ import time
 # advertising an HTTP server is a device
 time_to_search = 5 # (seconds)
 
+
+def is_awair(name):
+    for prefix in ['AWAIR-R2-','ELEM-','OMNI-','MNT-']:
+        if name.startswith(prefix):
+            return True
+    return False
+
 # finds the mDNS hostname and the IP address of the first Awair sensor found on your network
 class FirstAwairListener:
     def __init__(self):
@@ -22,7 +29,7 @@ class FirstAwairListener:
 
     def add_service(self, zeroconf, type, name):
         info = zeroconf.get_service_info(type, name)
-        if name.lower().startswith('awair') and info.type == '_http._tcp.local.':
+        if is_awair(name) and info.type == '_http._tcp.local.':
             addresses = ["%s:%d" % (socket.inet_ntoa(addr), cast(int, info.port)) for addr in info.addresses]
             self.ip_url = "http://" + addresses[0]
             self.name_url = "http://" + info.server
@@ -38,7 +45,7 @@ class AllAwairListener:
 
     def add_service(self, zeroconf, type, name):
         info = zeroconf.get_service_info(type, name)
-        if name.lower().startswith('awair') and info.type == '_http._tcp.local.':
+        if is_awair(name) and info.type == '_http._tcp.local.':
             inet_url = ["http://%s:%d" % (socket.inet_ntoa(addr), cast(int, info.port)) for addr in info.addresses][0]
             hostname_url = "http://" + info.server
             self.inet_urls.append(inet_url)
@@ -52,7 +59,6 @@ time.sleep(time_to_search)
 if listener.name_url is None:
     print(f"No Awair devices found in {time_to_search} seconds")
 else:
-    print(listener.name_url)
-    print(listener.ip_url)
+    print(f"{listener.name_url}\t->\t{listener.ip_url}")
 
 zeroconf.close()
