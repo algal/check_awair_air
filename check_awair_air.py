@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-import requests
 import json
-# requirements: requests
+import urllib
+import urllib.request
 
 # the DNS hostname or IP addresss of your Awaire with Local Sensors enabled
 hostname = 'AWAIR-R2-1313EC.local.'
 
 u = 'http://' + hostname + '/air-data/latest'
-r = requests.get(u)
-if r.status_code != 200:
+
+try:
+    with urllib.request.urlopen(u) as f:
+        d = json.loads(f.read().decode('utf-8'))
+except:
     print(f"Unable to reach sensor at {u}")
     exit(1)
-d = r.json()
-
+    
 out = """Air Quality:
 Score:      {:5.0f}
 Temp:       {:5.0f}
