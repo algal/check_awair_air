@@ -9,8 +9,8 @@ This is dirt simple. It doesn't rely on OAUTH or any servers. It
 relies on enabling "Local Sensors" on your Await
 
 - `check_awair_air.py` queries your device and reports scores. You need to
-  edit this file so the variable `hostname` hass the hostname or IP
-  addresss of your device on your local network. You can find this
+  edit this file so the variable `hostname` has the hostname or IP
+  address of your device on your local network. You can find this
   information by checking your router or ...
 
 - `find_awair_url.py` can help you find this information. It reports
